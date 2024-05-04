@@ -31,11 +31,11 @@ const Home = async () => {
       <div className="px-5 pt-6">
         <Search />
       </div>
-      <div className="px-5 pt-6">
+      <div className="px-5 pt-2">
         <CategoryList />
       </div>
 
-      <div className="px-5 pt-6">
+      <div className="px-5 pt-2">
         <PromoBanner
           src={"/promo-banner-01.png"}
           alt="Até 30% de desconto em pizzas"
