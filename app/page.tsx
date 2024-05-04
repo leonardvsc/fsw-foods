@@ -26,16 +26,16 @@ const Home = async () => {
   });
 
   return (
-    <>
+    <div className="m-auto max-w-screen-lg">
       <Header />
       <div className="px-5 pt-6">
         <Search />
       </div>
-      <div className="px-5 pt-2">
+      <div className="px-5 pt-6">
         <CategoryList />
       </div>
 
-      <div className="px-5 pt-2">
+      <div className="px-5 pt-6">
         <PromoBanner
           src={"/promo-banner-01.png"}
           alt="Até 30% de desconto em pizzas"
@@ -70,7 +70,7 @@ const Home = async () => {
         </div>
         <RestaurantList />
       </div>
-    </>
+    </div>
   );
 };
 
