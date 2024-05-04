@@ -34,7 +34,7 @@ const RestaurantItem = ({ restaurant }: RestaurantItemProps) => {
 
       <div>
         <div>
-          <h3 className="truncate text-lg font-semibold tracking-[-0.5px]">
+          <h3 className="truncate text-base font-semibold tracking-[-0.5px]">
             {restaurant.name}
           </h3>
 
