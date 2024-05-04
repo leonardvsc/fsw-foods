@@ -8,6 +8,10 @@ const Search = () => {
       <Input
         placeholder="Buscar Restaurantes"
         className="border-none pr-11 focus:outline-none"
+        type="text"
+        name="search"
+        id="search"
+        autoComplete="search"
       />
       <Button size={"icon"} className="absolute right-0">
         <SearchIcon size={20} />
