@@ -59,7 +59,9 @@ const ProductDetails = ({
       </div>
 
       {/* NOME DO PRODUTO */}
-      <h1 className="mb-2 px-5 pt-2 text-xl font-semibold">{product.name}</h1>
+      <h1 className="mb-2 px-5 pt-2 text-xl font-semibold tracking-[-0.4px]">
+        {product.name}
+      </h1>
 
       {/* PREÇO DO PRODUTO E QUANTIDADE */}
       <div className="flex justify-between px-5">
