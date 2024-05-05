@@ -18,9 +18,34 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
       id,
     },
     include: {
-      categories: true,
-      Products: {
+      categories: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          products: {
+            where: {
+              restaurantId: id,
+            },
+            include: {
+              restaurant: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      products: {
         take: 10,
+        include: {
+          restaurant: {
+            select: {
+              name: true,
+            },
+          },
+        },
       },
     },
   });
@@ -28,11 +53,12 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
   if (!restaurant) {
     return notFound();
   }
+
   return (
     <div>
       <RestaurantImage restaurant={restaurant} />
 
-      <div className="flex items-center justify-between px-5 pt-5">
+      <div className="relative z-50 mt-[-1.5rem] flex items-center justify-between rounded-t-3xl bg-white px-5 pt-5 ">
         {/* TITUTO */}
         <div className="flex items-center gap-[0.375rem]">
           <div className="relative h-8 w-8">
@@ -75,13 +101,23 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
       </div>
 
       {/* PRODUTOS MAIS PEDIDOS DO RESTAURANTE */}
-      <div className="mt-6 px-5">
+      <div className="mt-6 space-y-4">
         {/* TODO: Mostrar produtos mais pedidos quando implementarmos realização de pedidos */}
-        <h2 className="text-lg font-semibold tracking-[-0.4px]">
+        <h2 className="px-5 text-lg font-semibold tracking-[-0.4px]">
           Mais pedidos
         </h2>
         <ProductList products={restaurant.products} />
       </div>
+
+      {restaurant.categories.map((category) => (
+        <div className="mt-6 space-y-4" key={category.id}>
+          {/* TODO: Mostrar produtos mais pedidos quando implementarmos realização de pedidos */}
+          <h2 className="px-5 text-lg font-semibold tracking-[-0.4px]">
+            {category.name}
+          </h2>
+          <ProductList products={category.products} />
+        </div>
+      ))}
     </div>
   );
 };
