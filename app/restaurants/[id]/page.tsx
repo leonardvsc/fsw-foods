@@ -2,6 +2,9 @@ import { db } from "@/app/_lib/prisma";
 import { notFound } from "next/navigation";
 import RestaurantImage from "./_components/restaurant-image";
 import Image from "next/image";
+import { StarIcon } from "lucide-react";
+import DeliveryInfo from "@/app/_components/deliveryInfo";
+import ProductList from "@/app/_components/product-list";
 
 interface RestaurantPageProps {
   params: {
@@ -14,6 +17,12 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
     where: {
       id,
     },
+    include: {
+      categories: true,
+      Products: {
+        take: 10,
+      },
+    },
   });
 
   if (!restaurant) {
@@ -25,7 +34,7 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
 
       <div className="flex items-center justify-between px-5 pt-5">
         {/* TITUTO */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-[0.375rem]">
           <div className="relative h-8 w-8">
             <Image
               className="rounded-full object-cover"
@@ -34,10 +43,44 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
               fill
             />
           </div>
-          <h1 className="text-2xl font-semibold tracking-[-0.4px]">
+          <h1 className="text-xl font-semibold tracking-[-0.4px]">
             {restaurant.name}
           </h1>
         </div>
+
+        {/* RATING */}
+        <div className="flex items-center gap-[3px] rounded-full bg-foreground px-[14px] py-[8px] text-white">
+          <StarIcon className="fill-yellow-400 text-yellow-500" size={12} />
+          <span className="text-xs font-semibold">5.0</span>
+        </div>
+      </div>
+
+      {/* PREÇO DE ENTREGA E TEMPO DE ENTREGA */}
+      <div className="px-5">
+        <DeliveryInfo restaurant={restaurant} />
+      </div>
+
+      {/* CATEGORIAS DO RESTAURANTE */}
+      <div className="mt-3 flex gap-4 overflow-x-scroll px-5 [&::-webkit-scrollbar]:hidden">
+        {restaurant.categories.map((category) => (
+          <div
+            className="min-w-[167px] rounded-md bg-[#F4F4F5] p-2 text-center"
+            key={category.id}
+          >
+            <span className="block text-xs text-muted-foreground">
+              {category.name}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* PRODUTOS MAIS PEDIDOS DO RESTAURANTE */}
+      <div className="mt-6 px-5">
+        {/* TODO: Mostrar produtos mais pedidos quando implementarmos realização de pedidos */}
+        <h2 className="text-lg font-semibold tracking-[-0.4px]">
+          Mais pedidos
+        </h2>
+        <ProductList products={restaurant.products} />
       </div>
     </div>
   );
