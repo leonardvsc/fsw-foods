@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { searchForRestaurant } from "./_actions/search";
 import Header from "../_components/header";
 import RestaurantItem from "../_components/restaurant-item";
+import Search from "../_components/search";
 
 const Restaurants = () => {
   const searchParams = useSearchParams();
@@ -34,8 +35,11 @@ const Restaurants = () => {
     <>
       <Header />
       <div className="px-5 py-6">
-        <h2 className="mb-4 text-lg font-semibold tracking-[-0.4px]">
-          Restaurantes Encontrados
+        <div>
+          <Search />
+        </div>
+        <h2 className="my-4 text-xs text-muted-foreground">
+          Resultados para {`"${searchFor}"`}
         </h2>
         <div className="flex flex-col gap-6">
           {restaurants.map((restaurant) => (
