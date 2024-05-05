@@ -20,7 +20,7 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
     include: {
       categories: {
         orderBy: {
-          createdAt: "desc",
+          name: "asc",
         },
         include: {
           products: {
