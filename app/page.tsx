@@ -48,12 +48,12 @@ const Home = async () => {
           <h2 className="text-lg font-semibold tracking-[-0.4px]">
             Pedidos Recomendados
           </h2>
-          <Link href={"/products/recommended"}>
-            <Button variant={"link"} className="h-fit p-0">
+          <Button variant={"link"} className="h-fit p-0" asChild>
+            <Link href={"/products/recommended"}>
               Ver todos
               <ChevronRightIcon size={16} />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
         <ProductList products={products} />
       </div>
@@ -70,12 +70,13 @@ const Home = async () => {
           <h2 className="text-lg font-semibold tracking-[-0.4px]">
             Restaurantes Recomendados
           </h2>
-          <Link href={"/restaurants/recommended"}>
-            <Button variant={"link"} className="h-fit p-0">
+
+          <Button variant={"link"} className="h-fit p-0" asChild>
+            <Link href={"/restaurants/recommended"}>
               Ver todos
               <ChevronRightIcon size={16} />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
         <RestaurantList />
       </div>
