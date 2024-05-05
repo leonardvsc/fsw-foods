@@ -48,10 +48,12 @@ const Home = async () => {
           <h2 className="text-lg font-semibold tracking-[-0.4px]">
             Pedidos Recomendados
           </h2>
-          <Button variant={"link"} className="h-fit p-0">
-            Ver todos
-            <ChevronRightIcon size={16} />
-          </Button>
+          <Link href={"/products/recommended"}>
+            <Button variant={"link"} className="h-fit p-0">
+              Ver todos
+              <ChevronRightIcon size={16} />
+            </Button>
+          </Link>
         </div>
         <ProductList products={products} />
       </div>
