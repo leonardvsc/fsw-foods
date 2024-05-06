@@ -9,6 +9,9 @@ const Header = () => {
       <Link href={"/"}>
         <Image src="/logo.png" alt="FSW Foods" width={100} height={30} />
       </Link>
+
+      <Button>Login</Button>
+
       <Button
         size={"icon"}
         variant={"outline"}
