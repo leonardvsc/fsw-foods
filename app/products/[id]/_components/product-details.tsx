@@ -4,6 +4,15 @@ import Cart from "@/app/_components/cart";
 import DeliveryInfo from "@/app/_components/deliveryInfo";
 import DiscountBadge from "@/app/_components/discount-badge";
 import ProductList from "@/app/_components/product-list";
+import {
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/app/_components/ui/alert-dialog";
 import { Button } from "@/app/_components/ui/button";
 import {
   Sheet,
@@ -17,8 +26,11 @@ import {
   formatCurrency,
 } from "@/app/_helpers/calculateProductTotalPrice";
 import { Prisma } from "@prisma/client";
+import { AlertDialog } from "@radix-ui/react-alert-dialog";
+
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useContext, useState } from "react";
 
 interface ProductDetailsProps {
@@ -40,11 +52,30 @@ const ProductDetails = ({
 }: ProductDetailsProps) => {
   const [quantity, setQuantity] = useState(1);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { addProductToCart } = useContext(CartContext);
+  const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
+    useState(false);
+
+  const { addProductToCart, products } = useContext(CartContext);
+
+  const addToCart = ({ emptyCart }: { emptyCart?: boolean }) => {
+    addProductToCart({ product, quantity, emptyCart });
+    setIsCartOpen(true);
+  };
 
   const handleAddToCartClick = () => {
-    addProductToCart(product, quantity);
-    setIsCartOpen(true);
+    // VERIFICAR SEM HÁ ALGUM PRODUTO DE OUTRO RESTAURANTE NO CARRINHO
+    const hasDifferentRestaurantProduct = products.some(
+      (cartProduct) => cartProduct.restaurantId !== product.restaurantId,
+    );
+
+    // SE HOUVER, ABRIR UM AVISO
+    if (hasDifferentRestaurantProduct) {
+      return setIsConfirmationDialogOpen(true);
+    }
+
+    addToCart({
+      emptyCart: false,
+    });
   };
 
   const handleIncreaseQuantityClick = () =>
@@ -59,20 +90,22 @@ const ProductDetails = ({
     <>
       <div className="relative z-50 mt-[-1.5rem] rounded-t-3xl bg-white py-5">
         {/* RESTAURANTE */}
-        <div className="flex items-center gap-[0.375rem] px-5">
-          <div className="relative h-6 w-6">
-            <Image
-              className="rounded-full object-cover"
-              src={product?.restaurant.imageUrl}
-              alt={product.restaurant.name}
-              fill
-            />
-          </div>
+        <Link href={`/restaurants/${product.restaurant.id}`}>
+          <div className="flex items-center gap-[0.375rem] px-5">
+            <div className="relative h-6 w-6">
+              <Image
+                className="rounded-full object-cover"
+                src={product?.restaurant.imageUrl}
+                alt={product.restaurant.name}
+                fill
+              />
+            </div>
 
-          <span className="text-xs font-medium text-muted-foreground">
-            {product?.restaurant.name}
-          </span>
-        </div>
+            <span className="text-xs font-medium text-muted-foreground">
+              {product?.restaurant.name}
+            </span>
+          </div>
+        </Link>
 
         {/* NOME DO PRODUTO */}
         <h1 className="mb-2 truncate px-5 pt-2 text-xl font-semibold tracking-[-0.4px]">
@@ -154,9 +187,32 @@ const ProductDetails = ({
           <SheetHeader>
             <SheetTitle className="text-left">Sacola</SheetTitle>
           </SheetHeader>
+
           <Cart />
         </SheetContent>
       </Sheet>
+
+      <AlertDialog
+        open={isConfirmationDialogOpen}
+        onOpenChange={setIsConfirmationDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Você tem itens de outro restaurante adicionados na sua sacola!
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Deseja limpar a sacola?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Não</AlertDialogCancel>
+            <AlertDialogAction onClick={() => addToCart({ emptyCart: true })}>
+              Sim
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };

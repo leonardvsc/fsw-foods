@@ -53,11 +53,11 @@ const ProductItem = ({ product, className }: ProductItemProps) => {
             <h2 className="truncate text-base">{product.name}</h2>
 
             <div className="flex items-end gap-1">
-              <h3 className="text-lg font-semibold">
+              <h3 className="text-lg font-semibold tracking-tighter">
                 {formatCurrency(calculateProductTotalPrice(product))}
               </h3>
               {product.discountPercentage > 0 && (
-                <span className="my-1 text-xs text-muted-foreground line-through">
+                <span className="my-1 text-xs tracking-tighter text-muted-foreground line-through">
                   {formatCurrency(Number(product.price))}
                 </span>
               )}
