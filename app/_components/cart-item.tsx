@@ -86,7 +86,7 @@ const CartItem = ({ cartProduct }: CartItemProps) => {
         <Button
           size={"icon"}
           variant={"ghost"}
-          className="h-8 w-8 border border-solid border-gray-200 bg-white text-black"
+          className="mr-2 h-8 w-8 border border-solid border-gray-200 bg-white text-black"
           onClick={handleRemoveProductClick}
         >
           <svg
