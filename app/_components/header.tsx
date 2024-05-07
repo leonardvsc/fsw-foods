@@ -95,21 +95,25 @@ const Header = () => {
               <span className="block">Início</span>
             </Button>
 
-            <Button
-              variant={"ghost"}
-              className="w-full justify-start space-x-3 rounded-full text-sm font-normal"
-            >
-              <ScrollTextIcon size={16} />
-              <span className="block">Meus Pedidos</span>
-            </Button>
+            {data?.user && (
+              <>
+                <Button
+                  variant={"ghost"}
+                  className="w-full justify-start space-x-3 rounded-full text-sm font-normal"
+                >
+                  <ScrollTextIcon size={16} />
+                  <span className="block">Meus Pedidos</span>
+                </Button>
 
-            <Button
-              variant={"ghost"}
-              className="w-full justify-start space-x-3 rounded-full text-sm font-normal"
-            >
-              <HeartIcon size={16} />
-              <span className="block">Restaurantes Favoritos</span>
-            </Button>
+                <Button
+                  variant={"ghost"}
+                  className="w-full justify-start space-x-3 rounded-full text-sm font-normal"
+                >
+                  <HeartIcon size={16} />
+                  <span className="block">Restaurantes Favoritos</span>
+                </Button>
+              </>
+            )}
           </div>
 
           <div className="py-6">
