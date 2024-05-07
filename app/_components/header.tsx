@@ -23,7 +23,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Separator } from "./ui/separator";
 
 const Header = () => {
-  const { data, status } = useSession();
+  const { data } = useSession();
 
   const handleSignOutClick = () => signOut();
   const handleSignInClick = () => signIn();
